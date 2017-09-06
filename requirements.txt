@@ -1,2 +1,4 @@
 PyMySQL
 requests
+flask
+flask_cache

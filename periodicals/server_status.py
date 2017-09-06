@@ -13,7 +13,6 @@ import time
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(dir_path)
 os.chdir('..')
-cur_path = os.getcwd()
 config = configparser.ConfigParser()
 config.read('config.ini')
 

@@ -1,0 +1,17 @@
+<p class="lead"><font color="#{% if helper.green %}00FF00{% endif %}{% if helper.red %}FF0000{% endif %}">{{ status.status }}</font>: {{ status.message }}</p>
+
+<p>Recent History:</p>
+<table cellspacing="10" border="1" cellpadding="3">
+  <tr>
+    <th>Time (UTC)</th>
+    <th>Status</th>
+    <th>Message</th>
+  </tr>
+  {% for event in history %}
+  <tr>
+    <td>{{event.last_seen}}</td>
+    <td>{{event.status}}</td>
+    <td>{{event.message}}</td>
+  </tr>
+  {% endfor %}
+</table>
