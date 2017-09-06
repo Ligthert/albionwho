@@ -83,7 +83,6 @@ def page_status():
   ret = cursor.execute( sql_history )
   history = cursor.fetchall()
 
-  print(history)
   counter = 0
   for event in history:
     history[counter]['last_seen'] = datetime.datetime.fromtimestamp(event['last_seen']).strftime('%c')
