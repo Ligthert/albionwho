@@ -63,9 +63,9 @@ else:
   for reason in reasons:
     status_message = status_message + reason + " "
 
-#print(str(int(time.time())))
-#print(status_status)
-#print(status_message)
+print(str(int(time.time())))
+print(status_status)
+print(status_message)
 
 ret = cursor.execute( sql_select_status )
 retval = cursor.fetchone()
