@@ -15,6 +15,7 @@ A collection of tools to collect, view and analyze data available via the public
 1. Clone this repo to a suitable location
 1. Install the required Python 3 modules ('pip install -r requirements.txt')
 1. Create a database
+1. import _albionwho.mysql_ to create the tables needed.
 1. Modify _config.ini_ to your needs
 1. Prime the database by running _primer.py_
 1. Schedule periodical executing of scripts in _periodicals/_
