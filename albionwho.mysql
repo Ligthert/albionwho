@@ -16,6 +16,246 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `alliances`
+--
+
+DROP TABLE IF EXISTS `alliances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alliances` (
+  `Id` varchar(255) NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `Tag` varchar(255) NOT NULL,
+  `closed` int(11) NOT NULL DEFAULT '0',
+  `seen` int(11) NOT NULL DEFAULT '0',
+  KEY `index_Id` (`Id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Table with Alliances';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `alliances`
+--
+
+LOCK TABLES `alliances` WRITE;
+/*!40000 ALTER TABLE `alliances` DISABLE KEYS */;
+/*!40000 ALTER TABLE `alliances` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `alliances_guilds`
+--
+
+DROP TABLE IF EXISTS `alliances_guilds`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alliances_guilds` (
+  `alliances_id` varchar(255) NOT NULL,
+  `guilds_id` varchar(255) NOT NULL,
+  KEY `index_alliances` (`alliances_id`),
+  KEY `index_guilds` (`guilds_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Linking Guilds to Alliances';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `alliances_guilds`
+--
+
+LOCK TABLES `alliances_guilds` WRITE;
+/*!40000 ALTER TABLE `alliances_guilds` DISABLE KEYS */;
+/*!40000 ALTER TABLE `alliances_guilds` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `alliances_history`
+--
+
+DROP TABLE IF EXISTS `alliances_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alliances_history` (
+  `Id` varchar(255) NOT NULL,
+  `Seen` int(11) NOT NULL,
+  `guilds_id` varchar(255) DEFAULT NULL,
+  `mutation` int(11) NOT NULL DEFAULT '0',
+  `closed` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='All the changes to an alliance over time.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `alliances_history`
+--
+
+LOCK TABLES `alliances_history` WRITE;
+/*!40000 ALTER TABLE `alliances_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `alliances_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `guilds`
+--
+
+DROP TABLE IF EXISTS `guilds`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `guilds` (
+  `Id` varchar(255) NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `Founded` int(11) NOT NULL,
+  `FounderId` varchar(255) NOT NULL,
+  `Logo` varchar(255) DEFAULT NULL,
+  `KillFame` int(11) NOT NULL DEFAULT '0',
+  `DeathFame` int(11) NOT NULL DEFAULT '0',
+  `gvg_attacks_won` int(11) NOT NULL DEFAULT '0',
+  `gvg_attacks_lost` int(11) NOT NULL DEFAULT '0',
+  `gvg_defense_won` int(11) NOT NULL DEFAULT '0',
+  `gvg_defense_lost` int(11) NOT NULL DEFAULT '0',
+  `gvgDeaths` int(11) NOT NULL DEFAULT '0',
+  `gvgKills` int(11) NOT NULL DEFAULT '0',
+  `kills` int(11) NOT NULL DEFAULT '0',
+  `ratio` float NOT NULL DEFAULT '0',
+  `deaths` int(11) NOT NULL DEFAULT '0',
+  `fame` int(11) NOT NULL DEFAULT '0',
+  `closed` int(11) NOT NULL DEFAULT '0',
+  KEY `index_Id` (`Id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Table with Guilds';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `guilds`
+--
+
+LOCK TABLES `guilds` WRITE;
+/*!40000 ALTER TABLE `guilds` DISABLE KEYS */;
+/*!40000 ALTER TABLE `guilds` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `guilds_history`
+--
+
+DROP TABLE IF EXISTS `guilds_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `guilds_history` (
+  `Id` varchar(255) NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `Founded` int(11) NOT NULL,
+  `FounderId` varchar(255) NOT NULL,
+  `Logo` varchar(255) DEFAULT NULL,
+  `KillFame` int(11) NOT NULL DEFAULT '0',
+  `DeathFame` int(11) NOT NULL DEFAULT '0',
+  `gvg_attacks_won` int(11) NOT NULL DEFAULT '0',
+  `gvg_attacks_lost` int(11) NOT NULL DEFAULT '0',
+  `gvg_defense_won` int(11) NOT NULL DEFAULT '0',
+  `gvg_defense_lost` int(11) NOT NULL DEFAULT '0',
+  `gvgDeaths` int(11) NOT NULL DEFAULT '0',
+  `gvgKills` int(11) NOT NULL DEFAULT '0',
+  `kills` int(11) NOT NULL DEFAULT '0',
+  `ratio` float NOT NULL DEFAULT '0',
+  `deaths` int(11) NOT NULL DEFAULT '0',
+  `fame` int(11) NOT NULL DEFAULT '0',
+  `seen` int(11) NOT NULL,
+  `closed` int(11) NOT NULL DEFAULT '0',
+  KEY `index_Id` (`Id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='Table with Guilds';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `guilds_history`
+--
+
+LOCK TABLES `guilds_history` WRITE;
+/*!40000 ALTER TABLE `guilds_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `guilds_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `guilds_players`
+--
+
+DROP TABLE IF EXISTS `guilds_players`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `guilds_players` (
+  `guilds_Id` varchar(255) NOT NULL,
+  `players_Id` varchar(255) NOT NULL,
+  KEY `index_guilds` (`guilds_Id`),
+  KEY `index_players` (`players_Id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='JOIN hell in 5... 4... 3...';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `guilds_players`
+--
+
+LOCK TABLES `guilds_players` WRITE;
+/*!40000 ALTER TABLE `guilds_players` DISABLE KEYS */;
+/*!40000 ALTER TABLE `guilds_players` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `players`
+--
+
+DROP TABLE IF EXISTS `players`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `players` (
+  `Id` varchar(255) NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `Avatar` varchar(255) NOT NULL,
+  `AvatarRing` varchar(255) NOT NULL,
+  `AverageItemPower` float DEFAULT '0',
+  `KillFame` float DEFAULT '0',
+  `DeathFame` float DEFAULT '0',
+  `FameRatio` float DEFAULT '0',
+  `Equipment` text,
+  `Inventory` text
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Table with the known players';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `players`
+--
+
+LOCK TABLES `players` WRITE;
+/*!40000 ALTER TABLE `players` DISABLE KEYS */;
+/*!40000 ALTER TABLE `players` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `players_history`
+--
+
+DROP TABLE IF EXISTS `players_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `players_history` (
+  `Id` varchar(255) NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `Avatar` varchar(255) NOT NULL,
+  `AvatarRing` varchar(255) NOT NULL,
+  `AverageItemPower` float DEFAULT '0',
+  `KillFame` float DEFAULT '0',
+  `DeathFame` float DEFAULT '0',
+  `FameRatio` float DEFAULT '0',
+  `Equipment` text,
+  `Inventory` text,
+  `seen` int(11) NOT NULL,
+  `guild` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='Table with the known players';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `players_history`
+--
+
+LOCK TABLES `players_history` WRITE;
+/*!40000 ALTER TABLE `players_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `players_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `serverstatus`
 --
 
@@ -27,7 +267,7 @@ CREATE TABLE `serverstatus` (
   `status` varchar(50) NOT NULL,
   `message` tinytext NOT NULL,
   KEY `index_last_seen` (`last_seen`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Server Status';
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Server Status';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +276,7 @@ CREATE TABLE `serverstatus` (
 
 LOCK TABLES `serverstatus` WRITE;
 /*!40000 ALTER TABLE `serverstatus` DISABLE KEYS */;
-INSERT INTO `serverstatus` VALUES (1504699958,'online','All good.');
+INSERT INTO `serverstatus` VALUES (1504699900,'online','All good.'),(1504699958,'online','All good.'),(1504708922,'offline','Server is currently unavailable due to hotfix.'),(1504709162,'online','All good.');
 /*!40000 ALTER TABLE `serverstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +289,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-06 12:36:39
+-- Dump completed on 2017-09-10 10:11:46
