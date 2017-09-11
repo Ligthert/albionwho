@@ -7,6 +7,7 @@ import configparser
 import os
 import json
 import time
+import re
 
 
 # Load the config by finding it first...
@@ -51,8 +52,12 @@ if r.status_code != 200:
   reasons.append("Status code: "+r.status_code)
 
 if error==0:
+  # I need to do this because the API is weird.
   myContent = str(r.text)
-  myContent = str(myContent[3:]).strip()
+  myContent = myContent.replace("\n"," ")
+  myContent = myContent.replace("\r","")
+  m = re.search( '{.*}', myContent )
+  myContent = m.group(0)
 
   status_json = json.loads(myContent)
   status_status = status_json['status']
