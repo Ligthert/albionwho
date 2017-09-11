@@ -1,0 +1,46 @@
+<div class="text-center">
+  <table border="0" width="75%">
+    <tr><th align="center">Players</th><th align="center">Guilds</th><th align="center">Alliances</th></tr>
+    <tr>
+      <td valign="top" align="left">
+        {% if players %}
+        <table cellspacing="10" border="1" cellpadding="3">
+          {% for player in players %}
+          <tr align="left">
+            <td><a href="/player/{{player.Name}}">{{player.Name}}</a> {% if player.untracked %}*{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        {% else %}
+        <p>No results</p>
+        {% endif %}
+      </td>
+      <td valign="top" align="left">
+        {% if guilds %}
+        <table cellspacing="10" border="1" cellpadding="3">
+          {% for guild in guilds %}
+          <tr>
+            <td><a href="/guild/{{guild.Name}}">{{guild.Name}}</a> {% if guild.untracked %}*{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        {% else %}
+        <p>No results</p>
+        {% endif %}
+      </td>
+      <td valign="top" align="left">
+        {% if alliances %}
+        <table cellspacing="10" border="1" cellpadding="3">
+          {% for alliance in alliances %}
+          <tr>
+            <td><a href="/alliance/{{alliance.Name}}">{{alliance.Name}}</a> {% if alliance.untracked %}*{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        {% else %}
+        <p>No results</p>
+        {% endif %}
+      </td>
+  </table>
+  <p>Please note that names marked with an <b>*</b> at the end aren't tracked yet by AlbionWho. Loading these pages may take longer than usual.</p>
+</div>

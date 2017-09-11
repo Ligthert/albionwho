@@ -9,9 +9,9 @@
   </tr>
   {% for event in history %}
   <tr>
-    <td>{{event.last_seen}}</td>
-    <td>{{event.status}}</td>
-    <td>{{event.message}}</td>
+    <td><small>{{event.last_seen}}</small></td>
+    <td><b>{{event.status}}</b></td>
+    <td><small>{{event.message}}</small></td>
   </tr>
   {% endfor %}
 </table>

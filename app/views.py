@@ -7,6 +7,9 @@ import datetime
 import pymysql.cursors
 import configparser
 
+from albion_api_client import AlbionAPI
+import albionwho as aw
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(dir_path)
 os.chdir('..')
@@ -27,8 +30,27 @@ cache = Cache(app)
 # TODO: spam--> @cache.cached(timeout=config['cache']['timeout'])
 
 @app.route('/')
+@app.route('/search')
 def page_root():
-  content = "Hello Worldie! :D"
+  content = render_template("search.html")
+  active = {'search':True}
+  return render_template("template.html", content=content, active=active)
+
+@app.route('/search/<string:query>')
+def page_search(query):
+  content = render_template("search.html")
+
+  players_local = aw.search_players_local(query)
+  players_remote = aw.search_players_remote(query)
+  players = aw.search_merge_lists( players_local, players_remote )
+
+  guilds_local = aw.search_guilds_local(query)
+  guilds_remote = aw.search_guilds_remote(query)
+  guilds = aw.search_merge_lists( guilds_local, guilds_remote )
+
+  alliances = aw.search_alliances_local(query)
+
+  content = content + render_template("search_results.html", players=players, guilds=guilds, alliances=alliances)
   active = {'search':True}
   return render_template("template.html", content=content, active=active)
 
@@ -95,6 +117,17 @@ def page_status():
 
   active = {'status':True}
   return render_template("template.html", content=content, active=active)
+
+@app.route('/about')
+def page_about():
+  content = '<p>AlbionWho is written in Python 3 using Flask and the albion-api-client to gather publically information available about players, guilds and alliances. Due to the nature of Albion Online\'s public API the content of this side cannot be considered complete <small>(but I am trying my hardest to make sure it is!)</small> and with the things one can do with the data available nor will this be feature complete </small>(there are so many things I would like to do)</small>.</p><p>Things still on the todo/wishlist:</p><ul><li>Import GvG</li><li>Import kills</li><li>Graphs of captured metrics</li><li>Find relationships between players and or guilds based on captured data</li><li>Write a long forum post on how the API can be improved</li><li>Prevent Albion Online API from blacklisting my server boxes.</li></ul><p>As an EVE Online player Albion Online resonated with me when I started playing. While there are a lot of similarities, Albion Online lacks a long history of 3rd Party tools to assist the players in achieving bragging rights and help Alliance and Guild leaders and recruits to make an informed decisions about potential recruits and existing members... That and I needed a new hobby. ;)</p><hr><p>The following scripts run at the following times:<ul><li>Server status updater: every minute</li><li>Alliance/Guild/Player updater: every 6 hours</li><li>Background Alliance/Guild/Player adder: T.B.D.</li></ul></p>'
+  active = {'about':True}
+  return render_template("template.html", content=content, active=active)
+
+@app.route( '/search_form', methods=['POST'] )
+def page_searchform():
+  query = request.form['query']
+  return redirect("/search/"+query)
 
 @app.route('/static/<path:path>')
 def send_file(path):
