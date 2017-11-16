@@ -193,6 +193,20 @@ def players_insert(player):
 
 def players_update(player):
   print(" - updating player: "+player['Name'])
+  player = albion.get_player_info(player['Id'])
+  #sql_player_update = "UPDATE players WHERE Id ( Id, Name, Avatar, AvatarRing, AverageItemPower, KillFame, DeathFame, FameRatio ) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)"
+  # sql_player_history = "INSERT INTO players_history ( Id, Name, Avatar, AvatarRing, AverageItemPower, KillFame, DeathFame, FameRatio, seen, guild) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"
+  # sql_player_guild = "INSERT INTO guilds_players (guilds_Id,players_Id) VALUES (%s,%s)"
+
+
+  if len(player['Inventory']) == 0:
+    player['Inventory'] = "Null"
+
+  #ret = cursor.execute( sql_player_insert, ( player['Id'], (player['Name']), player['Avatar'], player['AvatarRing'], player['AverageItemPower'], player['KillFame'], player['DeathFame'], player['FameRatio'] ))
+  # ret = cursor.execute( sql_player_history, ( player['Id'], player['Name'], player['Avatar'], player['AvatarRing'], player['AverageItemPower'], player['KillFame'], player['DeathFame'], player['FameRatio'], curr_time(), player['GuildId']) )
+
+  # if player['GuildId'] != "":
+  #  ret = cursor.execute( sql_player_guild, ( player['GuildId'], player['Id'] ) )
 
 ## ---------------------- Search ---------------------------
 
@@ -268,20 +282,49 @@ def update_fetch_guilds():
     guilds.append( guild )
   return guilds
 
-# TODO
 def update_guild_stats(guild_basic, guild_base, guild_overall, guild_gvg):
-  print("Do something")
+  sql_insert_guild = "INSERT INTO guilds (Id,Name,Founded,FounderId,Logo,KillFame,DeathFame,gvg_attacks_won,gvg_attacks_lost,gvg_defense_won,gvg_defense_lost,gvgDeaths,gvgKills,kills,ratio,fame,deaths) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
-# TODO
+  guild = guild_base
+  overall = guild_overall
+  gvg = guild_gvg
+
+  # Prep incoming data
+  guild['Founded'] = converttimetoint(guild['Founded'])
+  guild['Logo'] = nulltostr(guild['Logo'])
+
+  # Insert new guild
+  ret = cursor.execute( sql_insert_guild, ( guild['Id'], guild['Name'], guild['Founded'], guild['FounderId'], guild['Logo'], guild['killFame'], guild['DeathFame'], gvg['attacks_won'], gvg['attacks_lost'], gvg['defense_won'], gvg['defense_lost'], overall['gvgDeaths'], overall['gvgKills'], overall['kills'], overall['ratio'], overall['fame'], overall['deaths'] ) )
+
+
 def update_guild_history(guild_basic, guild_base, guild_overall, guild_gvg):
-  print("Basically a CC of update_guild_stats()")
+  sql_insert_history = "INSERT INTO guilds_history (Id,Name,Founded,FounderId,Logo,KillFame,DeathFame,gvg_attacks_won,gvg_attacks_lost,gvg_defense_won,gvg_defense_lost,gvgDeaths,gvgKills,kills,ratio,fame,deaths,seen,closed) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
-# TODO
+  guild = guild_base
+  overall = guild_overall
+  gvg = guild_gvg
+
+  # Prep incoming data
+  guild['Founded'] = converttimetoint(guild['Founded'])
+  guild['Logo'] = nulltostr(guild['Logo'])
+
+  # Insert into the History
+  ret = cursor.execute( sql_insert_history, ( guild['Id'], guild['Name'], guild['Founded'], guild['FounderId'], guild['Logo'], guild['killFame'], guild['DeathFame'], gvg['attacks_won'], gvg['attacks_lost'], gvg['defense_won'], gvg['defense_lost'], overall['gvgDeaths'], overall['gvgKills'], overall['kills'], overall['ratio'], overall['fame'], overall['deaths'], curr_time(), 0) )
+
+
 # Returns a list
 def update_guild_get_players_local(guild_id):
-  print("SELECT ALL 'n shit yo!'")
+  ret = cursor.execute("SELECT players_Id FROM guilds_players WHERE guilds_Id = %s", (guild_id))
+  sql_players = cursor.fetchall()
+  players = []
+  for player in sql_players:
+    players.append(player['Id'])
+  return players
 
-# TODO
 # Returns a list
 def update_guild_get_players_remote(guild_id):
-  print("SELECT ALL 'n shit yo!'")
+  api_players = albion.get_guild_members(guild_id)
+  players = []
+  for player in api_players:
+    players.append(player['Id'])
+  return players

@@ -52,12 +52,12 @@ for guild in guilds:
   else:
     print("Guild "+guild['Name']+" still has "+str(guild_basic['memberCount'])+" members.")
 #    Update history
-    update_guild_history(guild_basic, guild_base, guild_overall, guild_gvg)
+    aw.update_guild_history(guild_basic, guild_base, guild_overall, guild_gvg)
 #    Update guild
-    update_guild_stats(guild_basic, guild_base, guild_overall, guild_gvg)
+    aw.update_guild_stats(guild_basic, guild_base, guild_overall, guild_gvg)
 #    select members list
-    guild_members_local = update_guild_get_players_local(guild['Id'])
-    guild_members_remote = update_guild_get_players_remote(guild['Id'])
+    guild_members_local = aw.update_guild_get_players_local(guild['Id'])
+    guild_members_remote = aw.update_guild_get_players_remote(guild['Id'])
 #    steal code from sgmon
 #      find added members
     guild_members_added = []
@@ -71,8 +71,10 @@ for guild in guilds:
       guild_members_removed = guild_members_remote
 
       for member in guild_members_added:
-        print("TODO")
-#        insert member if it doesn't exist
+#       insert member if it doesn't exist
+        if aw.player_exists(member['Id']) == 0:
+          aw.players_insert(member)
+        else:
 #        update member if it exists
 #        update guilds_players
 
@@ -93,9 +95,8 @@ for guild in guilds:
 #
 #Select all players
 players = players_get_all()
-#  Check for score updates
-#    update players
-#    update history
+#  update players
+#  update history
 #  Check for guild updates
 #    update players
 #    update guild history
